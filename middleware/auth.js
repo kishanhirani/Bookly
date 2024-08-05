@@ -1,7 +1,6 @@
 const auth = (req, res, next) => {
     const token = req.headers.token;
-    console.log('req.headers.token', req.headers.token)
-    const valid = req.session.token.find((item) => {
+    const valid = req?.session?.token?.find((item) => {
         return item === token
     })
     console.log('valid', valid)

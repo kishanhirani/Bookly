@@ -4,9 +4,6 @@ const rootRouter = require('./routes/index.js')
 const mongoose = require('mongoose')
 const session = require('express-session')
 
-
-
-
 const app = express();
 mongoose.connect('mongodb+srv://kishanhirani79:Omen1234@cluster0.ip2jaux.mongodb.net/Bookly')
 app.use(session({

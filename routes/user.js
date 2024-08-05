@@ -9,6 +9,6 @@ router.post('/createUser', userController.createUSer)
 
 router.post('/loginUser', userController.loginUSer)
 
-router.post('/logout', userController.logout)
+router.post('/logout', authMiddleware, userController.logout)
 
 module.exports = router  

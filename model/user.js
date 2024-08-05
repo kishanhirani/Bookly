@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
-const { use } = require('../routes')
-const { string } = require('zod')
+const { number } = require('zod')
 
 const userSchema = new mongoose.Schema({
     name: String,
@@ -10,6 +9,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true,
     },
+    approved: Number,
+
 
 })
 const user = mongoose.model('user', userSchema)

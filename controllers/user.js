@@ -35,7 +35,7 @@ const createUSer = async (req, res) => {
     const encryptedPassword = crypto.createHmac('sha256', salt).update(password).digest("hex")
 
     const created = await userModel.create({
-        name, email, password: encryptedPassword, salt
+        name, email, password: encryptedPassword, salt, approved: 0
 
     })
     const token = jwt.sign({ id: created._id }, "billa")
@@ -47,10 +47,14 @@ const loginUSer = async (req, res) => {
 
     const { email, password } = req.body;
 
+
     const emailExists = await userModel.findOne({ email: email })
+    const approved = await userModel.findOne({ email: email })
     console.log('emailExists', emailExists)
 
-
+    if (emailExists.approved === 0) {
+        return res.json({ data: [], message: "User not approved. please contact admin", success: false })
+    }
     if (!emailExists) {
         return res.json({ data: [], message: "User not found. Register first", success: false })
     }
