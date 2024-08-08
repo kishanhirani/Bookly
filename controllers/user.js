@@ -28,9 +28,9 @@ const createUSer = async (req, res) => {
     const emailExists = await userModel.find({ email: email })
 
     if (emailExists.length > 0) {
-
         return res.json({ data: [], message: "User already exist", success: true })
     }
+
     const salt = crypto.randomBytes(64).toString('hex')
     const encryptedPassword = crypto.createHmac('sha256', salt).update(password).digest("hex")
 
@@ -47,17 +47,15 @@ const loginUSer = async (req, res) => {
 
     const { email, password } = req.body;
 
-
     const emailExists = await userModel.findOne({ email: email })
-    const approved = await userModel.findOne({ email: email })
-    console.log('emailExists', emailExists)
-
-    if (emailExists.approved === 0) {
+    if (emailExists && emailExists.approved === 0) {
         return res.json({ data: [], message: "User not approved. please contact admin", success: false })
     }
+
     if (!emailExists) {
         return res.json({ data: [], message: "User not found. Register first", success: false })
     }
+
     const hashedPassword = crypto.createHmac('sha256', emailExists.salt).update(password).digest("hex")
 
     if (hashedPassword != emailExists.password) {
