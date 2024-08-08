@@ -28,7 +28,7 @@ const createUSer = async (req, res) => {
     const emailExists = await userModel.find({ email: email })
 
     if (emailExists.length > 0) {
-        return res.json({ data: [], message: "User already exist", success: true })
+        return res.json({ data: [], message: "User already exist", success: false })
     }
 
     const salt = crypto.randomBytes(64).toString('hex')
@@ -65,7 +65,7 @@ const loginUSer = async (req, res) => {
     const token = jwt.sign({ id: emailExists._id }, "billa")
     req.session.token = req.session.token ? [token, ...req.session.token] : [token]
 
-    return res.json({ token: token, data: [], message: "loggedin", success: true })
+    return res.json({ token: token, data: [], message: "Logged in successfully", success: true })
 
 }
 const logout = async (req, res) => {
