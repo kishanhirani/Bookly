@@ -39,7 +39,7 @@ const createUSer = async (req, res) => {
 
     })
     const token = jwt.sign({ id: created._id }, "billa")
-    return res.json({ toekn: token, data: [], message: "User Created", success: true })
+    return res.json({ toekn: token, data: { userData: { id: created._id } }, message: "User Created", success: true })
 
 }
 
