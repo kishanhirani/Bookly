@@ -1,9 +1,9 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const teaSchema = new mongoose.Schema({
-    userId: String,
-    count: Number,
-    time: Date,
-}, { timestamps: true })
-const tea = mongoose.model('tea', teaSchema)
-module.exports = tea
+    count_1: Number,
+    count_2: Number,
+}, { timestamps: true });
+
+const Tea = mongoose.model('Tea', teaSchema);
+module.exports = Tea;
