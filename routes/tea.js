@@ -8,6 +8,6 @@ const teaController = require('../controllers/tea.js')
 
 router.post('/addTea', teaController.addTea)
 router.post('/getTea', teaController.getTea)
-router.post('/updateTea', authMiddleware, teaController.updateTea)
+router.post('/updateTea', teaController.updateTea)
 
 module.exports = router     

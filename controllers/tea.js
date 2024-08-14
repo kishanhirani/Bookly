@@ -1,13 +1,10 @@
-const { ObjectId } = require('mongodb');
 const zod = require('zod')
 const teaModel = require('../model/tea.js')
 const jwt = require('jsonwebtoken');
 const moment = require('moment')
-const userModel = require('../model/user.js')
-const createTeaBody = zod.object({
-  count: zod.number(),
-  time: zod.coerce.date(),
-})
+// const userModel = require('../model/user.js');
+// const { Utils } = require('../helper/utils.js');
+
 const addTea = async (req, res) => {
   try {
 
@@ -69,7 +66,6 @@ const getTea = async (req, res) => {
   try {
     const { page } = req.body
     const data = await teaModel.find().sort({ createdAt: 1 }).limit(10).skip(page - 1)
-    console.log('data', data)
     const allData = await teaModel.find()
     const totalPage = Math.ceil(allData.length / 10)
     return res.json({
@@ -87,11 +83,28 @@ const getTea = async (req, res) => {
 
 const updateTea = async (req, res) => {
   try {
-    console.log('req', req)
-    const { id, name, count, time } = req.body
-    const data = await teaModel.findByIdAndUpdate(id, { name: name, count: count, time: time })
+    const { id, count, slot } = req.body;
+
+    if (id == null || id == undefined || id == "") {
+
+      return res.status(400).json({ message: "id is required", success: false });
+    }
+    if (count == null || count == undefined || count == "") {
+
+      return res.status(400).json({ message: "count is required", success: false });
+    }
+    if (slot == null || slot == undefined || slot == "") {
+
+      return res.status(400).json({ message: "slot is required", success: false });
+    }
+
+    const updateField = slot === 1 ? 'count_1' : 'count_2';
+    const update = { $inc: { [updateField]: +count } };
+
+    const data = await teaModel.findByIdAndUpdate(id, update, { new: true });
+
     return res.json({
-      data: [],
+      data: data,
       message: "",
       success: true
     });
