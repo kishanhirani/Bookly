@@ -83,12 +83,17 @@ const getTea = async (req, res) => {
 
 const updateTea = async (req, res) => {
   try {
-    const { id, count, slot } = req.body;
+    const { id, count, slot, mode } = req.body;
 
     if (id == null || id == undefined || id == "") {
 
       return res.status(400).json({ message: "id is required", success: false });
     }
+    if (mode == null || mode == undefined || mode == "") {
+
+      return res.status(400).json({ message: "mode is required", success: false });
+    }
+
     if (count == null || count == undefined || count == "") {
 
       return res.status(400).json({ message: "count is required", success: false });
@@ -99,7 +104,13 @@ const updateTea = async (req, res) => {
     }
 
     const updateField = slot === 1 ? 'count_1' : 'count_2';
-    const update = { $inc: { [updateField]: +count } };
+
+    let update;
+    if (mode === "0") {
+      update = { $set: { [updateField]: count } };
+    } else if (mode === "1") {
+      update = { $inc: { [updateField]: +count } };
+    }
 
     const data = await teaModel.findByIdAndUpdate(id, update, { new: true });
 
