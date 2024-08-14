@@ -65,7 +65,7 @@ const addTea = async (req, res) => {
 const getTea = async (req, res) => {
   try {
     const { page } = req.body
-    const data = await teaModel.find().sort({ createdAt: 1 }).limit(10).skip(page - 1)
+    const data = await teaModel.find().sort({ createdAt: -1 }).limit(10).skip(page - 1)
     const allData = await teaModel.find()
     const totalPage = Math.ceil(allData.length / 10)
     return res.json({
